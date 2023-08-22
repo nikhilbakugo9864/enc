@@ -1,20 +1,25 @@
-FROM jrottenberg/ffmpeg:latest
+FROM alpine:latest
 
-#  directory in the container
+
 WORKDIR /app
 
-# Copy the requirements
+
+RUN apk add --no-cache curl tar
+
+
+RUN curl -L https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz | tar Jxf - -C /usr/local/bin --strip-components=1 --wildcards */ffmpeg */ffprobe
+
+
 COPY requirements.txt .
 
-# Install dependencies
 RUN apk add --no-cache python3 py3-pip && \
     pip3 install --no-cache-dir -r requirements.txt
 
-# Copy
+
 COPY . .
 
 
 RUN chmod +x start.sh
 
-# Command to run the application
+
 CMD ["bash", "start.sh"]
