@@ -1,7 +1,20 @@
-#base image
-FROM artemisfowl004/vid-compress
+FROM jrottenberg/ffmpeg:latest
+
+#  directory in the container
 WORKDIR /app
+
+# Copy the requirements
 COPY requirements.txt .
-RUN pip3 install --no-cache-dir -r requirements.txt
+
+# Install dependencies
+RUN apk add --no-cache python3 py3-pip && \
+    pip3 install --no-cache-dir -r requirements.txt
+
+# Copy
 COPY . .
-CMD ["bash","start.sh"]
+
+
+RUN chmod +x start.sh
+
+# Command to run the application
+CMD ["bash", "start.sh"]
