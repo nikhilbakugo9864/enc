@@ -34,7 +34,7 @@ async def convert_video(video_file, output_directory, total_time, bot, message, 
     # https://stackoverflow.com/a/13891070/4723940
     kk = video_file.split("/")[-1]
     aa = kk.split(".")[-1]
-    out_put_file_name = kk.replace(f".{aa}", "[@anime_spectrum].mkv")
+    out_put_file_name = kk.replace(f".{aa}", "[AnimeSpectrum].mkv")
     #out_put_file_name = video_file + "_compressed" + ".mkv"
     progress = output_directory + "/" + "progress.txt"
     with open(progress, 'w') as f:
@@ -44,55 +44,41 @@ async def convert_video(video_file, output_directory, total_time, bot, message, 
      ## -vf eq=gamma=1.4:saturation=1.4
      ## lol 😂
     crf.append("28")
-codec.append("libx264")
-resolution.append("854x480")
-preset.append("veryfast")  # Use a placeholder that you can replace
-audio_b.append("40k")
-watermark.append('-vf "drawtext=fontfile=font.ttf:fontsize=16:fontcolor=white:bordercolor=black@0.50:x=w-tw-10:y=10:box=1:boxcolor=black@0.5:boxborderw=6:text=AnimeSpectrum"')
-
-# Customize this section to build your FFMPEG command
-metadata_command = (
-    "-metadata title='AnimeSpectrum' -metadata:s:v title='AnimeSpectrum' "
-    "-metadata:s:a title='AnimeSpectrum'"
-)
-
-custom_ffmpeg_command = (
-    f'ffmpeg -hide_banner -loglevel quiet -progress "{progress}" -i "{video_file}" {watermark[0]} '
-    f'-map 0:v:0 -map 0:a:? -map 0:s:? -map -0:t -c:v libx264 -vf "[0:v]drawtext=fontfile=font.ttf:'
-    f'text=\'ANIMESPECTRUM\':fontsize=15:fontcolor=white:bordercolor=black:borderw=7:x=w-text_w-15:y=15,'
-    f'drawtext=fontfile=font.ttf:text=\'ANIMESPECTRUM\':fontsize=15:fontcolor=black:bordercolor=white:'
-    f'borderw=7:x=w-text_w-15:y=15",scale=846x480,format=yuv420p,smartblur=ls=-0.9:lt=-20 -crf {crf[0]} '
-    f'-preset {preset[0]} -x264-params no-info=1 -c:a libfdk_aac -vbr 1 -ac 2 {metadata_command} '
-    f'-profile:a aac_he_v2 -c:s copy "{out_put_file_name}" -y'
-)
-
-# Properly indented lines
-COMPRESSION_START_TIME = time.time()
-process = await asyncio.create_subprocess_shell(
-    custom_ffmpeg_command,
-    # stdout must be a pipe to be accessible as process.stdout
-    stdout=asyncio.subprocess.PIPE,
-    stderr=asyncio.subprocess.PIPE,
-)
-LOGGER.info("ffmpeg_process: " + str(process.pid))
-pid_list.insert(0, process.pid)
-status = output_directory + "/status.json"
-with open(status, 'r+') as f:
-    statusMsg = json.load(f)
-    statusMsg['pid'] = process.pid
-    statusMsg['message'] = message.message_id
-    f.seek(0)
-    json.dump(statusMsg, f, indent=2)
-# os.kill(process.pid, 9)
-isDone = False
-while process.returncode != 0:
-    await asyncio.sleep(3)
-    with open(DOWNLOAD_LOCATION + "/progress.txt", 'r+') as file:
+    codec.append("libx264")
+    resolution.append("854x480")
+    preset.append("veryfast")
+    audio_b.append("40k")
+    watermark.append('-vf "drawtext=fontfile=font.ttf:fontsize=15:fontcolor=white:bordercolor=black@0.50:x=w-tw-10:y=10:box=1:boxcolor=black@0.5:boxborderw=6:text="AnimeSpectrum')
+    file_genertor_command = f'ffmpeg -hide_banner -loglevel quiet -progress "{progress}" -i "{video_file}" {watermark[0]}  -c:v {codec[0]}  -map 0 -crf {crf[0]} -c:s copy -pix_fmt yuv420p -s {resolution[0]} -b:v 150k -c:a libopus -b:a {audio_b[0]} -preset {preset[0]}  "{out_put_file_name}" -y'
+ #Done !!
+    COMPRESSION_START_TIME = time.time()
+    process = await asyncio.create_subprocess_shell(
+          file_genertor_command,
+          # stdout must a pipe to be accessible as process.stdout
+           stdout=asyncio.subprocess.PIPE,
+           stderr=asyncio.subprocess.PIPE,
+          )
+    #stdout, stderr = await process.communicate()
+    
+    LOGGER.info("ffmpeg_process: "+str(process.pid))
+    pid_list.insert(0, process.pid)
+    status = output_directory + "/status.json"
+    with open(status, 'r+') as f:
+      statusMsg = json.load(f)
+      statusMsg['pid'] = process.pid
+      statusMsg['message'] = message.message_id
+      f.seek(0)
+      json.dump(statusMsg,f,indent=2)
+    # os.kill(process.pid, 9)
+    isDone = False
+    while process.returncode != 0:
+      await asyncio.sleep(3)
+      with open(DOWNLOAD_LOCATION + "/progress.txt", 'r+') as file:
         text = file.read()
         frame = re.findall("frame=(\d+)", text)
-        time_in_us = re.findall("out_time_ms=(\d+)", text)
-        progress = re.findall("progress=(\w+)", text)
-        speed = re.findall("speed=(\d+\.?\d*)", text)
+        time_in_us=re.findall("out_time_ms=(\d+)", text)
+        progress=re.findall("progress=(\w+)", text)
+        speed=re.findall("speed=(\d+\.?\d*)", text)
         if len(frame):
           frame = int(frame[-1])
         else:
