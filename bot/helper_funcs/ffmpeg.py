@@ -46,7 +46,7 @@ async def convert_video(video_file, output_directory, total_time, bot, message, 
     crf.append("28")
 codec.append("libx264")
 resolution.append("854x480")
-preset.append("{preset[0]}")  # Use a placeholder that you can replace
+preset.append("veryfast")  # Use a placeholder that you can replace
 audio_b.append("40k")
 watermark.append('-vf "drawtext=fontfile=font.ttf:fontsize=16:fontcolor=white:bordercolor=black@0.50:x=w-tw-10:y=10:box=1:boxcolor=black@0.5:boxborderw=6:text=AnimeSpectrum"')
 
@@ -74,8 +74,6 @@ process = await asyncio.create_subprocess_shell(
        stdout=asyncio.subprocess.PIPE,
        stderr=asyncio.subprocess.PIPE,
 )
-    #stdout, stderr = await process.communicate()
-    
     LOGGER.info("ffmpeg_process: "+str(process.pid))
     pid_list.insert(0, process.pid)
     status = output_directory + "/status.json"
