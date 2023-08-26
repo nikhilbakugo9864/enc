@@ -65,13 +65,15 @@ custom_ffmpeg_command = (
     f'-preset {preset[0]} -x264-params no-info=1 -c:a libfdk_aac -vbr 1 -ac 2 {metadata_command} '
     f'-profile:a aac_he_v2 -c:s copy "{out_put_file_name}" -y'
 )
-    COMPRESSION_START_TIME = time.time()
-    process = await asyncio.create_subprocess_shell(
-          file_genertor_command,
-          # stdout must a pipe to be accessible as process.stdout
-           stdout=asyncio.subprocess.PIPE,
-           stderr=asyncio.subprocess.PIPE,
-          )
+
+# Properly indented lines
+COMPRESSION_START_TIME = time.time()
+process = await asyncio.create_subprocess_shell(
+      custom_ffmpeg_command,
+      # stdout must be a pipe to be accessible as process.stdout
+       stdout=asyncio.subprocess.PIPE,
+       stderr=asyncio.subprocess.PIPE,
+)
     #stdout, stderr = await process.communicate()
     
     LOGGER.info("ffmpeg_process: "+str(process.pid))
