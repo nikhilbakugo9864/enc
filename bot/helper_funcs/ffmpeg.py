@@ -69,30 +69,30 @@ custom_ffmpeg_command = (
 # Properly indented lines
 COMPRESSION_START_TIME = time.time()
 process = await asyncio.create_subprocess_shell(
-      custom_ffmpeg_command,
-      # stdout must be a pipe to be accessible as process.stdout
-       stdout=asyncio.subprocess.PIPE,
-       stderr=asyncio.subprocess.PIPE,
+    custom_ffmpeg_command,
+    # stdout must be a pipe to be accessible as process.stdout
+    stdout=asyncio.subprocess.PIPE,
+    stderr=asyncio.subprocess.PIPE,
 )
-    LOGGER.info("ffmpeg_process: "+str(process.pid))
-    pid_list.insert(0, process.pid)
-    status = output_directory + "/status.json"
-    with open(status, 'r+') as f:
-      statusMsg = json.load(f)
-      statusMsg['pid'] = process.pid
-      statusMsg['message'] = message.message_id
-      f.seek(0)
-      json.dump(statusMsg,f,indent=2)
-    # os.kill(process.pid, 9)
-    isDone = False
-    while process.returncode != 0:
-      await asyncio.sleep(3)
-      with open(DOWNLOAD_LOCATION + "/progress.txt", 'r+') as file:
+LOGGER.info("ffmpeg_process: " + str(process.pid))
+pid_list.insert(0, process.pid)
+status = output_directory + "/status.json"
+with open(status, 'r+') as f:
+    statusMsg = json.load(f)
+    statusMsg['pid'] = process.pid
+    statusMsg['message'] = message.message_id
+    f.seek(0)
+    json.dump(statusMsg, f, indent=2)
+# os.kill(process.pid, 9)
+isDone = False
+while process.returncode != 0:
+    await asyncio.sleep(3)
+    with open(DOWNLOAD_LOCATION + "/progress.txt", 'r+') as file:
         text = file.read()
         frame = re.findall("frame=(\d+)", text)
-        time_in_us=re.findall("out_time_ms=(\d+)", text)
-        progress=re.findall("progress=(\w+)", text)
-        speed=re.findall("speed=(\d+\.?\d*)", text)
+        time_in_us = re.findall("out_time_ms=(\d+)", text)
+        progress = re.findall("progress=(\w+)", text)
+        speed = re.findall("speed=(\d+\.?\d*)", text)
         if len(frame):
           frame = int(frame[-1])
         else:
