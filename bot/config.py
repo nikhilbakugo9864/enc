@@ -1,28 +1,26 @@
 from bot.get_cfg import get_config
+
 class Config(object):
     # You can keep this default
     SESSION_NAME = get_config("SESSION_NAME", "AHCompressorBot")
     # AHCompressBot....
     # sucks Dude
-    APP_ID = int(get_config("APP_ID", 12345))
-    API_HASH = get_config("API_HASH", "")
-    LOG_CHANNEL = get_config("LOG_CHANNEL")
+    APP_ID = 3847632  # Updated with your API ID
+    API_HASH = "1a9708f807ddd06b10337f2091c67657"  # Updated with your API HASH
+    LOG_CHANNEL = -1001839463286  # Updated with your log channel ID
     UPDATES_CHANNEL = get_config("UPDATES_CHANNEL", None) # Without `@` LOL
-     # Get these values from my.telegram.org
+    # Get these values from my.telegram.org
     AUTH_USERS = set(
         int(x) for x in get_config(
             "AUTH_USERS",
             should_prompt=True
         ).split()
     )
-# array , simplest method was AUTH_USERS = [] ; AUTH_USERS.append(your telegram id) 🤣
-    # array to store the channel ID who are authorized to use the bot
-    # dont u fucking remove this id 😤
-    TG_BOT_TOKEN = get_config("TG_BOT_TOKEN", "")
+    TG_BOT_TOKEN = "5494056691:AAE8an9G9x90d9pUIf5gk5G_EwMIMEpq_To"  # Updated with your bot token
     # the download location, where the HTTP Server runs
     DOWNLOAD_LOCATION = get_config("DOWNLOAD_LOCATION", "/app/downloads")
     # Telegram maximum file upload size
-    BOT_USERNAME = get_config("BOT_USERNAME", "")
+    BOT_USERNAME = "None_ninja_bot"  # Updated with your bot username
     MAX_FILE_SIZE = 2097152000
     TG_MAX_FILE_SIZE = 2097152000
     FREE_USER_MAX_FILE_SIZE = 2097152000
@@ -37,5 +35,5 @@ class Config(object):
     FINISHED_PROGRESS_STR = get_config("FINISHED_PROGRESS_STR", "▓")
     UN_FINISHED_PROGRESS_STR = get_config("UN_FINISHED_PROGRESS_STR", "░")
     LOG_FILE_ZZGEVC = get_config("LOG_FILE_ZZGEVC", "Log.txt")
-      # because, https://t.me/c/1494623325/5603
+    # because, https://t.me/c/1494623325/5603
     SHOULD_USE_BUTTONS = get_config("SHOULD_USE_BUTTONS", True)
