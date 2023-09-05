@@ -7,16 +7,16 @@ class Config(object):
     # sucks Dude
     APP_ID = 3847632  # Updated with your API ID
     API_HASH = "1a9708f807ddd06b10337f2091c67657"  # Updated with your API HASH
-    LOG_CHANNEL = -1001839463286  # Updated with your log channel ID
+    LOG_CHANNEL = -1001802708543  # Updated with your log channel ID
     UPDATES_CHANNEL = get_config("UPDATES_CHANNEL", None) # Without `@` LOL
     # Get these values from my.telegram.org
-    AUTH_USERS = {2020270268, 5009250822}
+    AUTH_USERS = {2020270268, 5009250822, -1001531767498}
     # auth users jdk 
-    TG_BOT_TOKEN = "5494056691:AAGPqC7wk9Oo8xp2Wa7RnHldlaeGiNRNFsQ"  # Updated with your bot token
+    TG_BOT_TOKEN = "6467412466:AAFbE4UE2EHOBAxXuMJDGmAIlzpvga5H8ic"  # Updated with your bot token
     # the download location, where the HTTP Server runs
     DOWNLOAD_LOCATION = get_config("DOWNLOAD_LOCATION", "/app/downloads")
     # Telegram maximum file upload size
-    BOT_USERNAME = "None_ninja_bot"  # Updated with your bot username
+    BOT_USERNAME = "Zenitsu_Probot"  # Updated with your bot username
     MAX_FILE_SIZE = 2097152000
     TG_MAX_FILE_SIZE = 2097152000
     FREE_USER_MAX_FILE_SIZE = 2097152000
@@ -28,8 +28,8 @@ class Config(object):
     # maximum message length in Telegram
     MAX_MESSAGE_LENGTH = 4096
     # add config vars for the display progress
-    FINISHED_PROGRESS_STR = get_config("FINISHED_PROGRESS_STR", "▓")
-    UN_FINISHED_PROGRESS_STR = get_config("UN_FINISHED_PROGRESS_STR", "░")
+    FINISHED_PROGRESS_STR = get_config("FINISHED_PROGRESS_STR", "●")
+    UN_FINISHED_PROGRESS_STR = get_config("UN_FINISHED_PROGRESS_STR", "○")
     LOG_FILE_ZZGEVC = get_config("LOG_FILE_ZZGEVC", "Log.txt")
     # because, https://t.me/c/1494623325/5603
     SHOULD_USE_BUTTONS = get_config("SHOULD_USE_BUTTONS", True)
