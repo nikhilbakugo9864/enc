@@ -87,7 +87,7 @@ async def incoming_start_message_f(bot, update):
         reply_markup=InlineKeyboardMarkup(
             [
                 [
-                    InlineKeyboardButton('Channel', url='https://t.me/AnimeSpectrum')
+                    InlineKeyboardButton('Channel', url='https://t.me/guardians_bot_updates')
                 ]
             ]
         ),
